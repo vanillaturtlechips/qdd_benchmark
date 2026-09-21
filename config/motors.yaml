@@ -1,0 +1,74 @@
+# 축 ↔ CAN 매핑 및 안전 한계.
+# 출처: openarm_simple_hardware.hpp (ID/타입), openarm_v1.0/config/arm/joint_limits.yaml (관절 한계),
+#       control_gains.yaml (운용 kp/kd). 좌=can1 / 우=can0 (memory: openarm-setup-progress).
+#
+# 주의: joint_limits.yaml 은 좌팔 기준. 우팔은 v2.0 xacro 관례상 lower/upper 가 부호 반전(mirrored)
+#       되므로 우팔 값은 검증 전까지 "verify: true" 로 표시한다. 안전 한계(soft_*)는 URDF 한계보다
+#       좁게 잡았으며, 실험 축은 반드시 스모크 테스트에서 자유 회전 범위를 눈으로 확인한다.
+
+loop_hz: 500          # excite.py 제어 주기
+recv_timeout_us: 500
+
+arms:
+  left:  {can_if: can1, canfd: true}
+  right: {can_if: can0, canfd: true}
+
+# 관절 공통 사양 (좌우 동일). index = init_arm_motors 순서 (0-based)
+joints:
+  joint1: {index: 0, send_id: 0x01, recv_id: 0x11, motor: DM8009, kp: 70.0, kd: 2.75,
+           urdf: {lower: -1.396263, upper: 3.490659, velocity: 16.754666, effort: 40}}
+  joint2: {index: 1, send_id: 0x02, recv_id: 0x12, motor: DM8009, kp: 70.0, kd: 2.5,
+           urdf: {lower: -1.745329, upper: 1.745329, velocity: 16.754666, effort: 40}}
+  joint3: {index: 2, send_id: 0x03, recv_id: 0x13, motor: DM4340, kp: 70.0, kd: 2.0,
+           urdf: {lower: -1.570796, upper: 1.570796, velocity: 5.445426, effort: 27}}
+  joint4: {index: 3, send_id: 0x04, recv_id: 0x14, motor: DM4340, kp: 60.0, kd: 2.0,
+           urdf: {lower: 0.0, upper: 2.443461, velocity: 5.445426, effort: 27}}
+  joint5: {index: 4, send_id: 0x05, recv_id: 0x15, motor: DM4310, kp: 10.0, kd: 0.7,
+           urdf: {lower: -1.570796, upper: 1.570796, velocity: 20.943946, effort: 7}}
+  joint6: {index: 5, send_id: 0x06, recv_id: 0x16, motor: DM4310, kp: 10.0, kd: 0.6,
+           urdf: {lower: -0.785398, upper: 0.785398, velocity: 20.943946, effort: 7}}
+  joint7: {index: 6, send_id: 0x07, recv_id: 0x17, motor: DM4310, kp: 10.0, kd: 0.5,
+           urdf: {lower: -1.570796, upper: 1.570796, velocity: 20.943946, effort: 7}}
+  gripper: {index: 7, send_id: 0x08, recv_id: 0x18, motor: DM4310, kp: 5.0, kd: 0.1,
+            urdf: {lower: 0.0, upper: 0.044, velocity: 10.0, effort: 333}}
+
+# 모터 타입별 CAN 스케일 (dm_motor_constants.hpp MOTOR_LIMIT_PARAMS: pMax, vMax, tMax)
+motor_limits:
+  DM4310: {p_max: 12.5, v_max: 30.0, t_max: 10.0}
+  DM4340: {p_max: 12.5, v_max: 10.0, t_max: 28.0}
+  DM8009: {p_max: 12.5, v_max: 45.0, t_max: 54.0}
+
+# 식별 실험용 안전 한계 (URDF 보다 좁음). 값은 매달린(hanging, q≈0) 자세 기준.
+# joint3 / joint7 은 매달린 자세에서 롤 축 = 중력 방향 → 중력 토크 ≈ 0, 마찰·관성 식별에 이상적.
+# joint1 (DM8009) 은 중력 부하가 걸리므로 범위를 좁게 잡고, 피팅 시 중력항을 포함해야 한다.
+safety:
+  soft_margin_rad: 0.15       # soft_lower/upper 접근 시 토크 스케일다운 시작 폭
+  t_mos_max_C: 70
+  t_rotor_max_C: 80
+  feedback_miss_ticks: 3      # 연속 미수신 허용 틱 수
+  per_joint:
+    joint1: {q_min: -0.6, q_max: 0.6, dq_max: 4.0, tau_max: 8.0}
+    joint2: {q_min: -0.6, q_max: 0.6, dq_max: 4.0, tau_max: 8.0}
+    joint3: {q_min: -1.2, q_max: 1.2, dq_max: 4.0, tau_max: 6.0}
+    joint4: {q_min:  0.1, q_max: 1.8, dq_max: 3.0, tau_max: 6.0}
+    joint5: {q_min: -1.2, q_max: 1.2, dq_max: 8.0, tau_max: 3.0}
+    joint6: {q_min: -0.6, q_max: 0.6, dq_max: 8.0, tau_max: 3.0}
+    joint7: {q_min: -1.2, q_max: 1.2, dq_max: 8.0, tau_max: 3.0}
+
+# 식별 대표 축 (WP3). 실제 축은 스모크 테스트 후 확정.
+id_axes:
+  DM4310: {arm: right, joint: joint7}
+  DM4340: {arm: right, joint: joint3}
+  DM8009: {arm: right, joint: joint1, note: "중력 부하 있음. 범위 좁게, 중력항 피팅 필요"}
+
+# Damiao 피드백 byte0 상위 4bit 상태 코드 (매뉴얼 기준, 실장비로 1회 검증 필요)
+error_codes:
+  0x0: disabled
+  0x1: enabled
+  0x8: over_voltage
+  0x9: under_voltage
+  0xA: over_current
+  0xB: mos_over_temp
+  0xC: rotor_over_temp
+  0xD: comm_lost
+  0xE: overload

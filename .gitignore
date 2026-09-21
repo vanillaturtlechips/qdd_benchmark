@@ -1,0 +1,22 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# 실험 데이터: 대용량 원본은 제외 (Hugging Face Dataset 으로 관리)
+data/**/*.log
+data/**/*.csv
+data/**/bag/
+data/**/*.mcap
+data/**/*.db3
+
+# 예외: 작은 메타·펌웨어 파라미터·dry-run 플롯은 포함
+!data/**/meta.yaml
+!data/**/*_param.csv
+!data/dry_run/*.png
+
+# Isaac / 분석 산출물
+*.usd
+*.usda
+*.npz
+*.pt

@@ -1,0 +1,8 @@
+record:
+  start_utc: 2026-09-21T02:10:56.906544416Z
+  start_epoch: 1789956656.907945049
+  host: myong12
+  ros_bag: 0
+  can_ifs: [can0]
+  can_stats_start:
+    can0: {rx_pkts: 31062845, rx_err: 0, rx_drop: 0, tx_pkts: 38280484, tx_err: 0, tx_drop: 0, bus_errors: 0, bus_off: 0, berr_tx: 0, berr_rx: 0}
