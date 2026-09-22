@@ -1,0 +1,45 @@
+source: isaac_bench
+cls: shoulder
+preset: rs03_shoulder
+hz: 500
+rig:
+  joint: right_joint1
+  inertia: 0.434
+  mgd: 11.74
+  kp: 70.0
+  kd: 2.75
+  chirp_f1: 8.0
+  mass: 4.399944375792081
+  length: 0.5439787052810904
+  gravity_axis: false
+  link_inertia_joint: 0.434
+proto:
+  step:
+    amp: 0.3
+    hold: 2.0
+    reps: 2
+  chirp:
+    amp: 0.1
+    f0: 0.2
+    dur: 30.0
+  multisine:
+    freqs:
+    - 0.3
+    - 0.7
+    - 1.3
+    - 2.9
+    amp: 0.4
+    dur: 14.0
+  free_decay:
+    release_from: 0.8
+    hold_s: 1.5
+    dur: 10.0
+    spin_v0: 2.0
+effort_mode: peak
+actuator_cfg:
+  effort_limit: 60.0
+  velocity_limit: 20.420352248333653
+  armature: 0.005
+  friction: 0.001
+  dynamic_friction: 0.001
+  saturation_effort: 60.0

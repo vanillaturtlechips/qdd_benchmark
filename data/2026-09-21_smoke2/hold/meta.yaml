@@ -1,0 +1,67 @@
+arm: right
+joint: joint7
+motor: DM4310
+mode: hold
+args:
+  arm: right
+  joint: joint7
+  mode: hold
+  out: data/2026-09-21_smoke2/hold
+  dry_run: false
+  motors: /home/myong12/qdd_benchmark/config/motors.yaml
+  dur: 5.0
+  kp: null
+  kd: null
+  center: null
+  levels: 0.5,1,2,4
+  tau: 0.5
+  f0: 0.1
+  f1: 20.0
+  kp_center: 2.0
+  kd_center: 0.0
+  amp: 0.3
+  hold: 2.0
+  reps: 3
+  freqs: 0.3,0.7,1.3,2.9
+  seed: 0
+  release_from: 0.8
+  goto_dur: 2.0
+loop_hz: 500
+safety:
+  q_min: -1.2
+  q_max: 1.2
+  dq_max: 8.0
+  tau_max: 3.0
+start_utc: '2026-09-21T07:36:25Z'
+start_epoch: 1789976185.3674371
+motor_params:
+  KT_Value: -1.0
+  Gr: -1.0
+  Inertia: -1.0
+  Damp: -1.0
+  TMAX: -1.0
+  VMAX: -1.0
+  PMAX: -1.0
+  TIMEOUT: -1.0
+  MAX_SPD: -1.0
+  NPP: -1.0
+  Rs: -1.0
+  LS: -1.0
+  Flux: -1.0
+  sw_ver: -1.0
+  hw_ver: -1.0
+q_start: -0.03643091477836258
+t_mos_start: 30
+t_rotor_start: 29
+phases:
+- Hold
+duration_s: 5.0
+end_epoch: 1789976190.449751
+ticks: 2500
+loop_late_ticks: 0
+abort_reason: null
+interrupted: false
+t_end:
+  t_mos: 30
+  t_rotor: 29
+safety_events: []

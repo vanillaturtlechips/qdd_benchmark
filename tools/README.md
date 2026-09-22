@@ -70,3 +70,29 @@ B 모드에서 excite.py 는 **타깃 모터 1개만 enable** 한다. 나머지 
 3. `excite.py --arm right --joint joint7 --mode const_vel --levels 0.3 --dur 4` — 저속으로 범위·방향 눈으로 확인
 4. `candump2csv.py` 로 병렬 캡처 파싱, `cmd.csv` 와 축·부호·스케일 일치 확인
 5. 이상 없으면 `config/motors.yaml: id_axes` 확정
+
+## `fit_params.py` — WP4 시스템 식별 (합성 데이터로 검증 완료, 2026-09-21)
+
+```
+fit_params.py <const_vel_dir> <chirp_dir> [--alpha-max 3] [--deadband 0.05] [--cutoff 30] [--huber 0.1] [--link-inertia I]
+```
+모델: τ = J·α + b·ω + c·sign(ω) + g_s·sin q + g_c·cos q + τ0. 입력은 `excite.py` 출력(`cmd.csv`) 또는 Isaac 리그 출력(`sim.csv`) 디렉터리.
+
+**2단계 절차 (기본 동작, meta.mode 로 자동 분기)**
+1. `const_vel` 세트에서 정속 plateau 샘플(|α| ≤ alpha_max, |ω| ≥ deadband)만으로 b, c, 중력항 추정
+2. `chirp` 세트에서 1단계 값을 고정하고 J 만 추정
+3. Isaac 매핑: `armature = J − I_link`, `dynamic_friction = friction = c`, `viscous_friction = b`
+
+**합성 검증 결과** (`synth` 프리셋: armature 0.003, Coulomb 0.15, viscous 0.02; 4레벨 const_vel + 0.1→20 Hz 처프)
+
+| | 진리값 | 중력 정렬 축 | 진자(중력 있음) |
+|---|---|---|---|
+| armature | 0.003 | 0.00309 (+3 %) | 0.00309 (+3 %) |
+| Coulomb c | 0.15 | 0.1505 (+0.3 %) | 0.1505 |
+| viscous b | 0.02 | 0.0196 (−2 %) | 0.0196 |
+| m·g·d | 0.3679 | — | 0.3685 (+0.2 %) |
+
+검증 중 확인된 함정 (실물 실험 설계에 반영):
+- **고주파 처프(20 Hz)로 마찰을 추정하면 c 가 −16 %** — 빠른 속도 반전에서 마찰이 스틱션에 머묾. 그래서 마찰은 const_vel 에서만.
+- **속도 레벨이 너무 높으면(범위 ±1.05 rad 에서 ≥ 8 rad/s) plateau 가 사라져** 반전 과도가 마찰 추정을 오염. alpha_max 마스크로 걸러지지만, 실물에서는 레벨 0.25~4 rad/s 위주로 잡고 8 rad/s 는 무부하 최고속도 확인용으로만.
+- 4개 속도 레벨이면 b 와 c 분리에 충분 (합성 기준). 실물은 노이즈가 있으므로 6레벨 권장: 0.25, 0.5, 1, 2, 3, 4.

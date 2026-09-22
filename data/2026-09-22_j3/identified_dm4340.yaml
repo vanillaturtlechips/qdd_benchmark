@@ -1,0 +1,60 @@
+motor: DM4340
+joint: right_joint3
+date: '2026-09-22'
+source_dirs:
+- data/2026-09-22_j3/const_vel
+- data/2026-09-22_j3/chirp
+model: tau = J*alpha + b*w + c*sign(w) + g_sin*sin(q) + g_cos*cos(q) + tau0
+fit:
+  J:
+    value: 0.027720988828517642
+    se: 0.00010632894562554311
+  b:
+    value: 0.1877895885319154
+    se: 0.000659829881755214
+  c:
+    value: 0.48153005030095775
+    se: 0.0007025835752372372
+  g_sin:
+    value: 0.03681030904203801
+    se: 0.0007983629556620752
+  g_cos:
+    value: -0.05108983594145387
+    se: 0.002874288523053944
+  tau0:
+    value: 0.044645249393669054
+    se: 0.0024822744351631946
+stage1_r2: 0.9960349540646405
+stage1_rms_Nm: 0.040338875358511786
+chirp_fmax_Hz: 3.5
+link_inertia_joint_kgm2: 0.00215
+link_inertia_source: Isaac OPENARM_BI_CFG 질량행렬 (유령질량 제거 후)
+firmware:
+  Gr: 40
+  Inertia_rotor_kgm2: 1.8153e-05
+  Damp: 0.00018066
+  TMAX: 28
+  VMAX: 10
+  NPP: 14
+  Rs_ohm: 0.73995
+  LS_H: 0.00032173
+  Flux_Wb: 0.0046525
+  KT_Value: 0
+  TIMEOUT: 0
+isaac_dcmotor:
+  effort_limit: 9.0
+  saturation_effort: 27.0
+  velocity_limit: 5.45
+  armature: 0.02557
+  armature_firmware_check: 0.02904
+  friction: 0.4815
+  dynamic_friction: 0.4815
+  viscous_friction: 0.1878
+gravity_check_Nm:
+  m_g_d_fit: 0.06296959733311797
+backdrive: free_decay 0.8 rad 에서 0.0 mrad 이동 — 중력 0.1 Nm < Coulomb 0.48 Nm, 자중으로는
+  백드라이브 안 됨
+notes:
+- J 는 0.1~8 Hz 전 대역에서 5 % 이내로 안정 (진폭 1.2 Nm 가 백래시를 충분히 넘김). joint7 과 달리 비강체 효과 미미
+- armature 실측 0.0256 vs 펌웨어 0.0290 (−12 %). Isaac I_link 0.00215 가 과소일 가능성 포함
+- velocity_limit 은 데이터시트 무부하 52 rpm (미실측)

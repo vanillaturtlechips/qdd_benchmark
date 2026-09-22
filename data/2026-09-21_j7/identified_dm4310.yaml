@@ -1,0 +1,63 @@
+motor: DM4310
+joint: right_joint7
+date: '2026-09-22'
+source_dirs:
+- data/2026-09-21_j7/const_vel
+- data/2026-09-21_j7/const_vel2
+- data/2026-09-21_j7/chirp
+- data/2026-09-21_j7/chirp2
+model: tau = J*alpha + b*w + c*sign(w) + g_sin*sin(q) + g_cos*cos(q) + tau0
+fit:
+  J:
+    value: 0.005911196095325761
+    se: 2.201406283064701e-05
+  b:
+    value: 0.024594504080951762
+    se: 0.000163175633945341
+  c:
+    value: 0.12173260024679028
+    se: 0.00016267816354409938
+  g_sin:
+    value: 0.718968050257762
+    se: 0.00022828574034670048
+  g_cos:
+    value: 0.038332436403304956
+    se: 0.0008986875111306543
+  tau0:
+    value: -0.0007861454112778996
+    se: 0.0007734687118488804
+stage1_r2: 0.9969239657974915
+stage1_rms_Nm: 0.02214832372604182
+chirp_fmax_Hz: 3.5
+link_inertia_joint_kgm2: 0.00559
+link_inertia_source: Isaac OPENARM_BI_CFG 질량행렬, hand=0.127 kg(URDF parallel_link inertials.yaml),
+  ee_tcp(=URDF hand_tcp) 질량 0 으로 보정 후. (이전 0.00432 는 hand 를 0 으로 잘못 놓은 값)
+isaac_dcmotor:
+  effort_limit: 3.0
+  saturation_effort: 7.0
+  velocity_limit: 20.94
+  armature: 0.00169
+  friction: 0.1217
+  dynamic_friction: 0.1217
+  viscous_friction: 0.0246
+  armature_source: 펌웨어 Inertia 1.689e-5 × Gr² (실측 분리 불가 — 아래 note)
+gravity_check_Nm:
+  m_g_d_fit: 0.7199891894827736
+notes:
+- J 는 0.1~3.5 Hz 처프에서 추정. 3.5 Hz 이상(0.3 Nm 진폭)에서는 출력 변위 <1° 로 백래시 영역 → J 가 0.003→0.001
+  로 감소 (비강체 전달 특성). 강체 DCMotor 모델에는 저주파 J 사용
+- 'J 는 여기 진폭 의존성 있음: 공진 처프(0.6 Nm, ±0.36 rad) 0.0060 / 중력보상 처프(0.3 Nm, ±0.26 rad)
+  0.0043. 계통 불확실성 ±0.0015 (armature 기준 ±100%)'
+- velocity_limit 은 데이터시트 무부하 200 rpm (미실측)
+- 'joint7 은 중력 정렬 축이 아님: m·g·d = 0.72 Nm (link7 + 그리퍼)'
+armature_measurement_withdrawn:
+  J_total_chirp: 0.0059
+  I_link_urdf: 0.00559
+  I_link_gravity_implied: ≥0.0075 (시뮬 중력 0.54 vs 실측 0.72 Nm → 실제 그리퍼가 URDF 보다 무거움,
+    그리퍼 모터 DM4310 0.3 kg 미포함 추정)
+  conclusion: J_total − I_link = 0.0003 (또는 음수). 그리퍼 관성 불확실성(≥0.002)이 armature(0.0017)보다
+    커서 joint7 에서는 armature 를 실측으로 분리할 수 없음. 2026-09-22 오전의 '펌웨어와 5 % 일치' 주장은 hand
+    질량을 0 으로 놓은 계산 오류였으므로 철회
+effective_total_inertia_kgm2:
+  value: 0.0059
+  note: 0.1~3.5 Hz 처프 실측, 홀드아웃 재생 PASS 로 유효성 확인. 링크/armature 분리는 불확실

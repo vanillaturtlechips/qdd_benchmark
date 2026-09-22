@@ -1,0 +1,17 @@
+source: isaac_rig
+actuator: synth
+mode: const_vel
+hz: 500
+mass: 0.5
+length: 0.15
+gravity_axis: false
+link_inertia_joint: 0.00375
+com_dist: 0.075
+actuator_cfg:
+  effort_limit: 50.0
+  velocity_limit: 50.0
+  armature: 0.003
+  friction: 0.15
+  dynamic_friction: 0.15
+  viscous_friction: 0.02
+  saturation_effort: 50.0

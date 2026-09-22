@@ -1,0 +1,21 @@
+source: isaac_rig
+actuator: dm4310
+mode: replay
+hz: 500
+mass: 1.6625777644771553
+length: 0.08829000000000001
+gravity_axis: false
+link_inertia_joint: 0.00432
+com_dist: 0.044145000000000004
+q0: -0.17567
+replay_cmd: data/2026-09-21_j7/multisine/cmd.csv
+replay_phase: multisine
+tau0_real: -0.0038
+actuator_cfg:
+  effort_limit: 3.0
+  velocity_limit: 20.94395102393195
+  armature: 0.00159
+  friction: 0.1217
+  dynamic_friction: 0.1217
+  viscous_friction: 0.0246
+  saturation_effort: 7.0

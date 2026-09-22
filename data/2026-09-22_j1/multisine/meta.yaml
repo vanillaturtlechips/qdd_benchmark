@@ -1,0 +1,69 @@
+arm: right
+joint: joint1
+motor: DM8009
+mode: multisine
+args:
+  arm: right
+  joint: joint1
+  mode: multisine
+  out: data/2026-09-22_j1/multisine
+  dry_run: false
+  motors: /home/myong12/qdd_benchmark/config/motors.yaml
+  dur: 20.0
+  kp: null
+  kd: null
+  center: null
+  levels: 0.25,0.5,1,2,3
+  a_max: 10.0
+  tau: 0.5
+  f0: 0.1
+  f1: 20.0
+  kp_center: 1.0
+  kd_center: 0.15
+  grav: 0,0
+  amp: 0.25
+  hold: 2.0
+  reps: 3
+  freqs: 0.3,0.7,1.3,2.9
+  seed: 0
+  release_from: 0.8
+  goto_dur: 2.0
+loop_hz: 500
+safety:
+  q_min: -0.6
+  q_max: 0.6
+  dq_max: 4.0
+  tau_max: 8.0
+start_utc: '2026-09-22T01:30:04Z'
+start_epoch: 1790040604.4421103
+motor_params:
+  KT_Value: 0.0
+  Gr: 9.0
+  Inertia: 0.00020611300715245306
+  Damp: 0.001029870007187128
+  TMAX: 54.0
+  VMAX: 45.0
+  PMAX: 12.5
+  TIMEOUT: 0.0
+  MAX_SPD: 600.0
+  NPP: 21.0
+  Rs: 0.15133200585842133
+  LS: 6.344319990603253e-05
+  Flux: 0.0042755999602377415
+  sw_ver: 925971510.0
+  hw_ver: 0.0
+q_start: 0.06847486076142495
+t_mos_start: 29
+t_rotor_start: 26
+phases:
+- MultiSine
+duration_s: 20.0
+end_epoch: 1790040624.4945571
+ticks: 10000
+loop_late_ticks: 0
+abort_reason: null
+interrupted: false
+t_end:
+  t_mos: 29
+  t_rotor: 27
+safety_events: []

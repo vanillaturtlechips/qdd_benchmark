@@ -1,0 +1,34 @@
+real: data/2026-09-21_j7/multisine
+sim: data/sim/replay_dm4310_j7
+motor: DM4310
+phase: multisine
+n: 10000
+cmd_match_max_rad: 0.0
+tau0_subtracted: -0.0038
+residual_rms:
+  q_rad: 0.00666760162257458
+  dq_rads: 0.18847383188560923
+  tau_Nm: 0.09709409141410844
+residual_max:
+  q_rad: 0.0158824475193024
+  dq_rads: 0.6129430656242371
+  tau_Nm: 0.30870202794075013
+signal_std:
+  q_rad: 0.12619110675106304
+  dq_rads: 1.2923619488867752
+  tau_Nm: 0.2204302601548324
+nrms:
+  q_rad: 0.052837333741178334
+  dq_rads: 0.14583672325539937
+  tau_Nm: 0.440475329230699
+tracking_rms_deg:
+  real: 1.0914230264690565
+  sim: 1.0339828372881836
+verdict:
+  pos_rms_deg: 0.38202543244810305
+  pos_limit_deg: 2.0
+  pos_pass: true
+  tau_rms_Nm: 0.09709409141410844
+  tau_limit_Nm: 0.30000000000000004
+  tau_pass: true
+  tau_limit_note: 10% × rated 3.0 Nm

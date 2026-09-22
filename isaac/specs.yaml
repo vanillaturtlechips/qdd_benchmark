@@ -1,0 +1,188 @@
+# 비교 대상 액추에이터 사양 — 출처가 확인된 값만 기입. 빈칸(null)은 공개 자료에 없음.
+# 수집일 2026-09-21. 각 항목의 source 를 보고서에 인용한다.
+#
+# 주의 1: Damiao 드라이버 상수(TMAX/VMAX: DM4310 10/30, DM4340 28/10, DM8009 54/45)는 CAN 인코딩 범위이지 사양이 아니다.
+# 주의 2: OpenArm 드라이버는 24V 타입(DM4310/DM4340/DM8009)으로 초기화하지만 실제 버스 전압은 미확인 → 무부하 속도는 실측(const_vel)으로 대체.
+# 주의 3: Unitree 팔 모터의 단품 질량·감속비는 미공개 → 토크 밀도(Nm/kg)는 G1/H1 에 대해 계산 불가.
+
+damiao:
+  DM4310:
+    source: https://damiao.enactic.ai/en/products/hardware/dm-j4310-2ec-v1.1/
+    rated_torque_Nm: 3.0
+    peak_torque_Nm: 7.0
+    rated_speed_rpm: 120
+    noload_speed_rpm: 200
+    gear_ratio: 10
+    mass_kg: 0.300
+    rated_current_A: 2.5
+    peak_current_A: 7.5
+    voltage_V: 24
+    pole_pairs: 14
+    phase_R_ohm: 0.65
+    phase_L_H: 340e-6
+    firmware_readback:   # 2026-09-21 right joint7 (CAN 파라미터 응답)
+      Gr: 10
+      NPP: 14
+      Rs_ohm: 0.72185
+      LS_H: 0.000329874
+      Flux_Wb: 0.00460573
+      Inertia_rotor_kgm2: 1.68908e-5
+      Damp: 0.000525813
+      KT_Value: 0          # 미설정 → Kt ≈ 1.5·NPP·Flux·Gr = 0.967 Nm/A (출력축) 유도값
+      TIMEOUT: 0
+  DM4340:
+    source: https://damiao.enactic.ai/en/products/hardware/dm-j4340p-2ec-v1.0/
+    rated_torque_Nm: 9.0
+    peak_torque_Nm: 27.0
+    rated_speed_rpm: 36
+    noload_speed_rpm: 52          # 24V (48V: 100)
+    gear_ratio: 40
+    mass_kg: 0.375
+    rated_current_A: 2.5
+    peak_current_A: 8.0
+    voltage_V: 24
+    pole_pairs: 14
+    phase_R_ohm: 0.88
+    phase_L_H: 360e-6
+    firmware_readback:   # 2026-09-22 right joint3
+      Gr: 40
+      NPP: 14
+      Rs_ohm: 0.73995
+      LS_H: 0.00032173
+      Flux_Wb: 0.0046525
+      Inertia_rotor_kgm2: 1.8153e-5
+      Damp: 0.00018066
+      KT_Value: 0
+      TIMEOUT: 0
+  DM8009:
+    source: https://damiao.enactic.ai/en/products/hardware/dm-j8009p-2ec-v1.0/
+    rated_torque_Nm: 20.0
+    peak_torque_Nm: 40.0
+    rated_speed_rpm: 100
+    noload_speed_rpm: 160         # 24V (48V: 320)
+    gear_ratio: 9
+    mass_kg: 0.930
+    rated_current_A: 20
+    peak_current_A: 50
+    voltage_V: 24
+    pole_pairs: 21
+    phase_R_ohm: 0.145
+    phase_L_H: 80e-6
+    firmware_readback:   # 2026-09-22 right joint1
+      Gr: 9
+      NPP: 21
+      Rs_ohm: 0.15133
+      LS_H: 6.3443e-5
+      Flux_Wb: 0.0042756
+      Inertia_rotor_kgm2: 2.0611e-4
+      Damp: 0.0010299
+      KT_Value: 0
+      TIMEOUT: 0
+
+# Unitree — 공개 URDF 의 <limit effort/velocity> 와 공개 MuJoCo XML 의 joint 기본값.
+# effort 는 "관절 최대 토크" 로 해석 (정격/피크 구분 없음 → 보고서에서 피크로 취급, 명시).
+unitree_g1_29dof:
+  source_urdf: https://github.com/unitreerobotics/unitree_ros/blob/master/robots/g1_description/g1_29dof_rev_1_0.urdf
+  source_mjcf: https://github.com/unitreerobotics/unitree_mujoco/blob/main/unitree_robots/g1/g1_29dof.xml
+  mjcf_joint_defaults:          # 팔/손목 클래스 공통. 다리·허리도 같은 값 → 실측 아닌 범용 플레이스홀더일 가능성 높음
+    arm_motor:   {armature_kgm2: 0.01, damping: 0.05, frictionloss_Nm: 0.2}
+    wrist_motor: {armature_kgm2: 0.01, damping: 0.05, frictionloss_Nm: 0.1}
+  joints:
+    shoulder_pitch: {effort_Nm: 25, velocity_rads: 37, mjcf_class: arm_motor}
+    shoulder_roll:  {effort_Nm: 25, velocity_rads: 37, mjcf_class: arm_motor}
+    shoulder_yaw:   {effort_Nm: 25, velocity_rads: 37, mjcf_class: arm_motor}
+    elbow:          {effort_Nm: 25, velocity_rads: 37, mjcf_class: arm_motor}
+    wrist_roll:     {effort_Nm: 25, velocity_rads: 37, mjcf_class: arm_motor}
+    wrist_pitch:    {effort_Nm: 5,  velocity_rads: 22, mjcf_class: wrist_motor}
+    wrist_yaw:      {effort_Nm: 5,  velocity_rads: 22, mjcf_class: wrist_motor}
+    waist_yaw:      {effort_Nm: 88, velocity_rads: 32}
+    waist_roll:     {effort_Nm: 35, velocity_rads: 30}
+    # 참고 (다리, 비교표 미포함): hip 88/32, knee 139/20, ankle 50/37  ← Isaac Lab G1_29DOF_CFG 와 일치
+  motor_mass_kg: null
+  gear_ratio: null
+
+unitree_h1:
+  source_urdf: https://github.com/unitreerobotics/unitree_ros/blob/master/robots/h1_description/urdf/h1.urdf
+  joints:
+    shoulder_pitch: {effort_Nm: 40, velocity_rads: 9}
+    shoulder_roll:  {effort_Nm: 40, velocity_rads: 9}
+    shoulder_yaw:   {effort_Nm: 18, velocity_rads: 20}
+    elbow:          {effort_Nm: 18, velocity_rads: 20}
+  motor_mass_kg: null
+
+unitree_h1_2:
+  source_urdf: https://github.com/unitreerobotics/unitree_ros/blob/master/robots/h1_2_description/h1_2.urdf
+  joints:
+    shoulder_pitch: {effort_Nm: 40, velocity_rads: 9}
+    shoulder_yaw:   {effort_Nm: 18, velocity_rads: 20}
+    elbow:          {effort_Nm: 18, velocity_rads: 20}
+    wrist_roll:     {effort_Nm: 19, velocity_rads: 31.4}
+    wrist_pitch:    {effort_Nm: 19, velocity_rads: 31.4}
+
+# =====================================================================================
+# 오픈소스 휴머노이드 QDD — 상용 모듈 계열 (로봇 오픈, 액추에이터 폐쇄)
+# =====================================================================================
+robstride:   # 공식 GitHub 사양표 (2026-07-13 판). 정격 토크는 지정 방열판 조건.
+  source: https://github.com/RobStride/Product_Information
+  RS00: {peak_torque_Nm: 14, rated_torque_Nm: 5,  rated_at_rpm: 100, noload_speed_rpm: 315, gear_ratio: 10,   mass_kg: 0.310, voltage_V: 48}
+  RS02: {peak_torque_Nm: 17, rated_torque_Nm: 7,  rated_at_rpm: 100, noload_speed_rpm: 410, gear_ratio: 7.75, mass_kg: 0.380, voltage_V: 48}
+  RS03: {peak_torque_Nm: 60, rated_torque_Nm: 21, rated_at_rpm: 100, noload_speed_rpm: 195, gear_ratio: 9,    mass_kg: 0.900, voltage_V: 48}
+  RS04: {peak_torque_Nm: 120, rated_torque_Nm: 40, rated_at_rpm: 50, noload_speed_rpm: 200, gear_ratio: 9,    mass_kg: 1.420, voltage_V: 48}
+  RS05: {peak_torque_Nm: 5.5, rated_torque_Nm: 1.8, rated_at_rpm: 100, noload_speed_rpm: 480, gear_ratio: 7.75, mass_kg: 0.191, voltage_V: 48}
+  RS06: {peak_torque_Nm: 36, rated_torque_Nm: 11, rated_at_rpm: 100, noload_speed_rpm: 480, gear_ratio: 9,    mass_kg: 0.621, voltage_V: 48}
+
+kscale_kbot_v2:   # 관절→Robstride 매핑 + K-Scale 공개 MJCF/URDF 의 시뮬 파라미터 (클래스별로 다른 값 → 튜닝된 값으로 추정)
+  source_metadata: https://github.com/kscalelabs/kscale-assets/blob/master/kbot-v2/metadata.json
+  source_mjcf: https://github.com/kscalelabs/kscale-assets/blob/master/kbot-v2/robot.mjcf
+  source_urdf: https://github.com/kscalelabs/kscale-assets/blob/master/kbot-v2/robot.urdf
+  mjcf_classes:
+    motor_00: {actuator: RS00, armature_kgm2: 0.005,  frictionloss_Nm: 0.1,    actuatorfrc_Nm: 14,  urdf_effort_Nm: 14,  urdf_velocity_rads: 27.227}
+    motor_02: {actuator: RS02, armature_kgm2: 0.0015, frictionloss_Nm: 0.1,    actuatorfrc_Nm: 17,  urdf_effort_Nm: 17,  urdf_velocity_rads: 37.699}
+    motor_03: {actuator: RS03, armature_kgm2: 0.005,  frictionloss_Nm: 0.001,  actuatorfrc_Nm: 60,  urdf_effort_Nm: 60,  urdf_velocity_rads: 18.849}
+    motor_04: {actuator: RS04, armature_kgm2: 0.007,  frictionloss_Nm: 0.0015, actuatorfrc_Nm: 120, urdf_effort_Nm: 120, urdf_velocity_rads: 17.488}
+  joints:   # kp/kd/soft_torque_limit 는 metadata.json 의 실기 운용값
+    shoulder_pitch: {class: motor_03, kp: 100, kd: 4, soft_torque_limit_Nm: 42}
+    shoulder_roll:  {class: motor_03, kp: 100, kd: 4, soft_torque_limit_Nm: 42}
+    shoulder_yaw:   {class: motor_02, kp: 40,  kd: 2, soft_torque_limit_Nm: 11.9}
+    elbow:          {class: motor_02, kp: 40,  kd: 2, soft_torque_limit_Nm: 11.9}
+    wrist:          {class: motor_00, kp: 20,  kd: 2, soft_torque_limit_Nm: 9.8}
+    hip_pitch: {class: motor_04}
+    hip_roll:  {class: motor_03}
+    hip_yaw:   {class: motor_03}
+    knee:      {class: motor_04}
+    ankle:     {class: motor_02}
+
+# =====================================================================================
+# 자체 설계 QDD, 설계 공개 (논문)
+# =====================================================================================
+mit_humanoid:   # Table II + 관절표. 다이노 실측: U10 포화 ~31 Nm, U12 68 Nm (기어 한계). 팔은 3-DoF.
+  source: https://arxiv.org/pdf/2104.09025
+  modules:
+    U10: {mass_kg: 0.619, gear_ratio: 6, peak_torque_Nm: 33.6, max_speed_rads_60V: 55, output_inertia_kgm2: 0.0023, dyno_saturation_Nm: 31}
+    U12: {mass_kg: 1.174, gear_ratio: 6, peak_torque_Nm: 68.0, max_speed_rads_60V: 45, output_inertia_kgm2: 0.02,  dyno_saturation_Nm: 68}
+  joints:   # 벨트 증속 포함한 관절 기준값
+    shoulder_abad:    {module: U10, total_ratio: 6.0,  torque_Nm: 33.6,  speed_rads: 55}
+    shoulder_flexion: {module: U10, total_ratio: 6.0,  torque_Nm: 33.6,  speed_rads: 55}
+    elbow:            {module: U10, total_ratio: 9.33, torque_Nm: 52.2,  speed_rads: 35}
+    hip_yaw:          {module: U10, total_ratio: 6.0,  torque_Nm: 33.6,  speed_rads: 55}
+    hip_flexion:      {module: U12, total_ratio: 6.0,  torque_Nm: 68.0,  speed_rads: 45}
+    knee:             {module: U12, total_ratio: 12.0, torque_Nm: 136.0, speed_rads: 22.5}
+    ankle:            {module: U10, total_ratio: 9.33, torque_Nm: 52.2,  speed_rads: 35}
+
+berkeley_humanoid:   # Table 2. 유성 9:1, EtherCAT. 팔은 설계만 (미장착) → 토크 클래스로만 비교. 관절 배치는 Fig.10 그림(미추출)
+  source: https://arxiv.org/pdf/2407.21781
+  actuators:
+    "5013":  {mass_kg: 0.251, gear_ratio: 9, peak_torque_Nm: 9.7,  sustained_torque_Nm: 4.59, max_speed_rads_48V: 83.7, rotor_inertia_kgm2: 6.1e-6, max_power_W: 220}
+    "8513":  {mass_kg: 0.756, gear_ratio: 9, peak_torque_Nm: 45.3, sustained_torque_Nm: 18.9, max_speed_rads_48V: 40.7, rotor_inertia_kgm2: 6.9e-5, max_power_W: 570}
+    "8518":  {mass_kg: 0.856, gear_ratio: 9, peak_torque_Nm: 62.6, sustained_torque_Nm: 26.1, max_speed_rads_48V: 29,   rotor_inertia_kgm2: 9.4e-5, max_power_W: 730}
+    "10413": {mass_kg: 1.011, gear_ratio: 9, peak_torque_Nm: 81.1, sustained_torque_Nm: 34.2, max_speed_rads_48V: 27.9, rotor_inertia_kgm2: 1.5e-4, max_power_W: 890}
+
+berkeley_humanoid_lite:   # 3D 프린팅 사이클로이드 + 시판 BLDC. 완전 오픈 하드웨어. 값은 공개 Isaac Lab cfg + 펌웨어 설정 파일.
+  source_paper: https://arxiv.org/pdf/2504.17249
+  source_isaaclab_cfg: https://github.com/HybridRobotics/berkeley-humanoid-lite-assets/blob/main/berkeley_humanoid_lite_assets/robots/berkeley_humanoid_lite.py
+  source_motor_cfg: https://github.com/HybridRobotics/berkeley-humanoid-lite/blob/main/motor_configuration.json
+  actuators:
+    "5010": {motor: "5010 BLDC drone motor", used_at: arms, isaac_effort_limit_Nm: 4, isaac_velocity_limit_rads: 10, isaac_armature_kgm2: 0.002, mass_kg: null, gear_ratio: null}
+    "6512": {motor: "6512 BLDC",             used_at: legs,  isaac_effort_limit_Nm: 6, isaac_velocity_limit_rads: 10, isaac_armature_kgm2: 0.007, mass_kg: null, gear_ratio: null}
+  firmware_sample: {gear_ratio: 15, torque_constant_motor_NmA: 0.1176, pole_pairs: 14, note: "motor_configuration.json device_id 3 — 5010/6512 중 어느 것인지 미확인"}
+  robot: {mass_kg: 16, height_m: 0.8}

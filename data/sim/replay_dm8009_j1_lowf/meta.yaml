@@ -1,0 +1,21 @@
+source: isaac_rig
+actuator: dm8009
+mode: replay
+hz: 500
+mass: 4.802756184843469
+length: 0.4983546848381602
+gravity_axis: false
+link_inertia_joint: 0.3976
+com_dist: 0.2491773424190801
+q0: 0.11311
+replay_cmd: data/2026-09-22_j1c/multisine_lowf/cmd.csv
+replay_phase: multisine
+tau0_real: -1.218
+actuator_cfg:
+  effort_limit: 20.0
+  velocity_limit: 16.755160819145562
+  armature: 0.01669
+  friction: 0.814
+  dynamic_friction: 0.814
+  viscous_friction: 0.1
+  saturation_effort: 40.0

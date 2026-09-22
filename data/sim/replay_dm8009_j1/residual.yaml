@@ -1,0 +1,34 @@
+real: data/2026-09-22_j1/multisine
+sim: data/sim/replay_dm8009_j1
+motor: DM8009
+phase: multisine
+n: 10000
+cmd_match_max_rad: 0.0
+tau0_subtracted: -0.755
+residual_rms:
+  q_rad: 0.023332279597461026
+  dq_rads: 0.3767019704472558
+  tau_Nm: 2.5641307340867865
+residual_max:
+  q_rad: 0.0543735608494281
+  dq_rads: 0.7118526774597168
+  tau_Nm: 5.245811348724365
+signal_std:
+  q_rad: 0.07784331021126283
+  dq_rads: 0.6034866156111434
+  tau_Nm: 4.310991037202313
+nrms:
+  q_rad: 0.29973390820789086
+  dq_rads: 0.6242093208078433
+  tau_Nm: 0.5947891591421216
+tracking_rms_deg:
+  real: 2.995531320779368
+  sim: 3.5818021472499644
+verdict:
+  pos_rms_deg: 1.336841147353716
+  pos_limit_deg: 2.0
+  pos_pass: true
+  tau_rms_Nm: 2.5641307340867865
+  tau_limit_Nm: 2.0
+  tau_pass: false
+  tau_limit_note: 10% × rated 20.0 Nm

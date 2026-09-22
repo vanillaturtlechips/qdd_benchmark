@@ -1,0 +1,70 @@
+arm: right
+joint: joint7
+motor: DM4310
+mode: free_decay
+args:
+  arm: right
+  joint: joint7
+  mode: free_decay
+  out: data/2026-09-21_j7/free_decay
+  dry_run: false
+  motors: /home/myong12/qdd_benchmark/config/motors.yaml
+  dur: 6.0
+  kp: null
+  kd: null
+  center: null
+  levels: 0.25,0.5,1,2,3
+  a_max: 10.0
+  tau: 0.5
+  f0: 0.1
+  f1: 20.0
+  kp_center: 1.0
+  kd_center: 0.15
+  grav: 0,0
+  amp: 0.3
+  hold: 2.0
+  reps: 3
+  freqs: 0.3,0.7,1.3,2.9
+  seed: 0
+  release_from: 0.8
+  goto_dur: 2.0
+loop_hz: 500
+safety:
+  q_min: -1.2
+  q_max: 1.2
+  dq_max: 8.0
+  tau_max: 3.0
+start_utc: '2026-09-22T00:31:40Z'
+start_epoch: 1790037100.392169
+motor_params:
+  KT_Value: 0.0
+  Gr: 10.0
+  Inertia: 1.689080090727657e-05
+  Damp: 0.0005258130258880556
+  TMAX: 10.0
+  VMAX: 30.0
+  PMAX: 12.5
+  TIMEOUT: 0.0
+  MAX_SPD: 600.0
+  NPP: 14.0
+  Rs: 0.7218499779701233
+  LS: 0.0003298739902675152
+  Flux: 0.004605730064213276
+  sw_ver: 925970485.0
+  hw_ver: 0.0
+q_start: -0.09632257572289582
+t_mos_start: 27
+t_rotor_start: 27
+phases:
+- GoTo
+- FreeDecay
+duration_s: 10.0
+end_epoch: 1790037110.4444761
+ticks: 5001
+loop_late_ticks: 0
+abort_reason: null
+interrupted: false
+t_end:
+  t_mos: 27
+  t_rotor: 27
+safety_events: []

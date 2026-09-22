@@ -1,0 +1,194 @@
+pose: hanging q=0
+note: "M_ii = \uAD00\uC808 i \uD558\uB958 \uB9C1\uD06C \uC804\uCCB4\uC758 \uAD00\uC808\
+  \uCD95 \uAE30\uC900 \uAD00\uC131 (hand=0.127 kg URDF \uAC12, ee_tcp\u22480 \uB85C\
+  \ \uBCF4\uC815 \uD6C4)"
+corrected_bodies:
+  openarm_left_hand: 0.12700000405311584
+  openarm_right_hand: 0.12700000405311584
+  openarm_left_ee_tcp: 9.999999747378752e-05
+  openarm_right_ee_tcp: 9.999999747378752e-05
+M_diag:
+  openarm_left_joint1: 0.4340735673904419
+  openarm_right_joint1: 0.4340735971927643
+  openarm_left_joint2: 0.43327197432518005
+  openarm_right_joint2: 0.4332718849182129
+  openarm_left_joint3: 0.002151781227439642
+  openarm_right_joint3: 0.002151788678020239
+  openarm_left_joint4: 0.09803066402673721
+  openarm_right_joint4: 0.09803062677383423
+  openarm_left_joint5: 0.0011454463237896562
+  openarm_right_joint5: 0.001145453192293644
+  openarm_left_joint6: 0.005978441797196865
+  openarm_right_joint6: 0.0059784408658742905
+  openarm_left_joint7: 0.005586743820458651
+  openarm_right_joint7: 0.005586743354797363
+  openarm_left_finger_joint1: 0.03602544590830803
+  openarm_left_finger_joint2: 0.03602544590830803
+  openarm_left_hand: 0.00019999993673991412
+  openarm_right_finger_joint1: 0.03602544590830803
+  openarm_right_finger_joint2: 0.03602544590830803
+  openarm_right_hand: 0.00019999993673991412
+  openarm_left_ee_tcp_joint: 9.999994654208422e-05
+  openarm_right_ee_tcp_joint: 9.999994654208422e-05
+usd_armature:
+  openarm_left_joint1: 0.0
+  openarm_right_joint1: 0.0
+  openarm_left_joint2: 0.0
+  openarm_right_joint2: 0.0
+  openarm_left_joint3: 0.0
+  openarm_right_joint3: 0.0
+  openarm_left_joint4: 0.0
+  openarm_right_joint4: 0.0
+  openarm_left_joint5: 0.0
+  openarm_right_joint5: 0.0
+  openarm_left_joint6: 0.0
+  openarm_right_joint6: 0.0
+  openarm_left_joint7: 0.0
+  openarm_right_joint7: 0.0
+  openarm_left_finger_joint1: 0.0
+  openarm_left_finger_joint2: 0.0
+  openarm_left_hand: 0.0
+  openarm_right_finger_joint1: 0.0
+  openarm_right_finger_joint2: 0.0
+  openarm_right_hand: 0.0
+  openarm_left_ee_tcp_joint: 0.0
+  openarm_right_ee_tcp_joint: 0.0
+bodies:
+  openarm_body_link:
+    mass: 16.176456451416016
+    com_local:
+    - -0.00013404236233327538
+    - 0.0
+    - 0.09865861386060715
+  openarm_left_link1:
+    mass: 1.141668438911438
+    com_local:
+    - 0.0011467657750472426
+    - -3.3199878089362755e-05
+    - 0.05395284295082092
+  openarm_right_link1:
+    mass: 1.141668438911438
+    com_local:
+    - 0.0011467657750472426
+    - 3.3199878089362755e-05
+    - 0.05395284295082092
+  openarm_left_link2:
+    mass: 0.27750927209854126
+    com_local:
+    - 0.008396292105317116
+    - 2.014510158687699e-08
+    - 0.03256649151444435
+  openarm_right_link2:
+    mass: 0.27750927209854126
+    com_local:
+    - 0.008396292105317116
+    - -2.014510158687699e-08
+    - 0.03256649151444435
+  openarm_left_link3:
+    mass: 1.0738633871078491
+    com_local:
+    - -0.0021047519985586405
+    - -0.0005549085326492786
+    - 0.0904747024178505
+  openarm_right_link3:
+    mass: 1.0738633871078491
+    com_local:
+    - -0.0021047519985586405
+    - 0.0005549085326492786
+    - 0.0904747024178505
+  openarm_left_link4:
+    mass: 0.6348534822463989
+    com_local:
+    - -0.0029006830882281065
+    - -0.030305758118629456
+    - 0.06339637190103531
+  openarm_right_link4:
+    mass: 0.6348534822463989
+    com_local:
+    - -0.0029006830882281065
+    - -0.030305758118629456
+    - 0.06339637190103531
+  openarm_left_link5:
+    mass: 0.6156588196754456
+    com_local:
+    - -0.003049665130674839
+    - -0.0008866902207955718
+    - 0.04307980462908745
+  openarm_right_link5:
+    mass: 0.6156588196754456
+    com_local:
+    - -0.003049665130674839
+    - 0.0008866902207955718
+    - 0.04307980462908745
+  openarm_left_link6:
+    mass: 0.4752027690410614
+    com_local:
+    - -0.037136588245630264
+    - -0.00033230529516004026
+    - -9.498374856775627e-05
+  openarm_right_link6:
+    mass: 0.4752027690410614
+    com_local:
+    - -0.037136588245630264
+    - 0.00033230529516004026
+    - -9.498374856775627e-05
+  openarm_left_link7:
+    mass: 0.46597713232040405
+    com_local:
+    - 6.875510007375851e-05
+    - -0.012661752291023731
+    - 0.06951945275068283
+  openarm_right_link7:
+    mass: 0.46597713232040405
+    com_local:
+    - 6.875510007375851e-05
+    - 0.012661752291023731
+    - 0.06951945275068283
+  openarm_left_right_finger:
+    mass: 0.036025453358888626
+    com_local:
+    - 0.006452799774706364
+    - -0.017020000144839287
+    - 0.021968500688672066
+  openarm_left_left_finger:
+    mass: 0.036025453358888626
+    com_local:
+    - 0.006452799774706364
+    - 0.017020000144839287
+    - 0.021968500688672066
+  openarm_left_hand:
+    mass: 0.12700000405311584
+    com_local:
+    - 0.0
+    - 0.0
+    - 0.0
+  openarm_right_right_finger:
+    mass: 0.036025453358888626
+    com_local:
+    - 0.006452799774706364
+    - -0.017020000144839287
+    - 0.021968500688672066
+  openarm_right_left_finger:
+    mass: 0.036025453358888626
+    com_local:
+    - 0.006452799774706364
+    - 0.017020000144839287
+    - 0.021968500688672066
+  openarm_right_hand:
+    mass: 0.12700000405311584
+    com_local:
+    - 0.0
+    - 0.0
+    - 0.0
+  openarm_left_ee_tcp:
+    mass: 9.999999747378752e-05
+    com_local:
+    - 0.0
+    - 0.0
+    - 0.0
+  openarm_right_ee_tcp:
+    mass: 9.999999747378752e-05
+    com_local:
+    - 0.0
+    - 0.0
+    - 0.0

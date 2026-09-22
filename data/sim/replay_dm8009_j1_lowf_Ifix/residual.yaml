@@ -1,0 +1,34 @@
+real: data/2026-09-22_j1c/multisine_lowf
+sim: data/sim/replay_dm8009_j1_lowf_Ifix
+motor: DM8009
+phase: multisine
+n: 10000
+cmd_match_max_rad: 0.0
+tau0_subtracted: -1.218
+residual_rms:
+  q_rad: 0.014726688937173677
+  dq_rads: 0.08198289167903727
+  tau_Nm: 0.4779632904695604
+residual_max:
+  q_rad: 0.028946776695251503
+  dq_rads: 0.2307700002361924
+  tau_Nm: 1.4274090251922602
+signal_std:
+  q_rad: 0.10406784255286965
+  dq_rads: 0.6620490961025673
+  tau_Nm: 1.927297998545524
+nrms:
+  q_rad: 0.14151046640264564
+  dq_rads: 0.12383204230874163
+  tau_Nm: 0.24799656868334083
+tracking_rms_deg:
+  real: 1.585526699262268
+  sim: 1.6009169923575186
+verdict:
+  pos_rms_deg: 0.8437771223020517
+  pos_limit_deg: 2.0
+  pos_pass: true
+  tau_rms_Nm: 0.4779632904695604
+  tau_limit_Nm: 2.0
+  tau_pass: true
+  tau_limit_note: 10% × rated 20.0 Nm

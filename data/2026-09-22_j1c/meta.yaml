@@ -1,0 +1,13 @@
+record:
+  start_utc: 2026-09-22T02:23:20.095752381Z
+  start_epoch: 1790043800.097043629
+  host: myong12
+  ros_bag: 0
+  can_ifs: [can0]
+  can_stats_start:
+    can0: {rx_pkts: 0, rx_err: 0, rx_drop: 0, tx_pkts: 0, tx_err: 0, tx_drop: 0, bus_errors: 0, bus_off: 0, berr_tx: 0, berr_rx: 0}
+  end_utc: 2026-09-22T02:39:29.332343190Z
+  end_epoch: 1790044769.335313804
+  can_stats_end:
+    can0: {rx_pkts: 259154, rx_err: 0, rx_drop: 0, tx_pkts: 259154, tx_err: 0, tx_drop: 0, bus_errors: 0, bus_off: 0, berr_tx: 0, berr_rx: 0}
+  frames_can0: 518308

@@ -1,0 +1,84 @@
+motor: DM8009
+joint: right_joint1
+date: '2026-09-22'
+source_dirs:
+- data/2026-09-22_j1/const_vel
+model: 'tau = J*alpha + b*w + c*sign(w) + g_sin*sin(q) + tau0  (g_cos 제외: |q|<0.45
+  라 tau0 와 공선)'
+fit:
+  J:
+    value: 0.1098523383401362
+    se: 0.019766952344273905
+  b:
+    value: 0.14320481301246135
+    se: 0.03651251961753603
+  c:
+    value: 0.9459104494977515
+    se: 0.01962898589707693
+  g_sin:
+    value: 10.870116874805507
+    se: 0.05164382217201133
+  tau0:
+    value: -0.7598588464438637
+    se: 0.011528912558461796
+r2: 0.9501766128448929
+rms_resid_Nm: 0.6319468341007097
+link_inertia_joint_kgm2: 0.3976
+link_inertia_source: Isaac OPENARM_BI_CFG 질량행렬 (유령질량 제거 후)
+firmware:
+  Gr: 9
+  Inertia_rotor_kgm2: 0.00020611
+  Damp: 0.0010299
+  TMAX: 54
+  VMAX: 45
+  NPP: 21
+  Rs_ohm: 0.15133
+  LS_H: 6.3443e-05
+  Flux_Wb: 0.0042756
+  KT_Value: 0
+  TIMEOUT: 0
+isaac_dcmotor:
+  effort_limit: 20.0
+  saturation_effort: 40.0
+  velocity_limit: 16.76
+  armature: 0.01669
+  armature_source: 펌웨어 로터관성×Gr² (링크 관성 0.40 의 4% 라 처프로 분리 불가 → 미실측)
+  friction: 0.814
+  dynamic_friction: 0.814
+  viscous_friction: 0.1
+  viscous_uncertainty: ±0.05 (plateau 속도 ≤1 rad/s, 잔차 노이즈 0.6 Nm)
+  friction_note: hold 조건 0.814 (채택) / 비hold 0.950. 차이 0.14 는 disable 된 하류 관절의 꿈틀거림
+    마찰로 해석
+gravity_check_Nm:
+  m_g_d_fit: 10.870116874805507
+torque_bias_Nm: -0.7598588464438637
+notes:
+- 11 Nm 중력 부하 하의 어깨 관절 실측 → 마찰은 부하 조건 값 (데이터시트 무부하와 상이)
+- 잔차 0.6~0.7 Nm 은 위치·속도 구조 없는 노이즈 — kp 70 PD 로 중력 부하를 잡을 때의 토크 요동
+- velocity_limit 은 데이터시트 무부하 160 rpm (미실측)
+- free_decay 는 팔 전체 진자 위험으로 생략
+remeasured_hold_condition_2026-09-22:
+  source: data/2026-09-22_j1c/const_vel (joint2~7 PD hold)
+  fit:
+    J:
+      value: 0.1998716642613095
+      se: 0.005007360492505187
+    b:
+      value: -0.062308326590536645
+      se: 0.024908192475364216
+    c:
+      value: 0.8139698239854873
+      se: 0.013956756241034263
+    g_sin:
+      value: 11.735848264805238
+      se: 0.03807743170044099
+    tau0:
+      value: -1.2182160321539004
+      se: 0.008095325901676002
+  r2: 0.938616131118405
+  rms_resid_Nm: 0.6963648024123142
+sim2real:
+  holdout_2.9Hz: FAIL (Δτ 2.56 Nm) — 팔꿈치 PD 스프링(kp60, I 0.085 → ~4 Hz) 공진 근처, 다관절
+    구조 동역학. 단일 관절 리그로 재현 불가
+  holdout_le1.3Hz_hold: PASS Δq 0.93° Δτ 0.66 Nm (data/sim/replay_dm8009_j1_lowf)
+  valid_band_Hz: ≤1.5 (강체 영역)

@@ -20,3 +20,6 @@ data/**/*.db3
 *.usda
 *.npz
 *.pt
+
+# WP6 지표 표 (작음)
+!data/sim/**/metrics.csv

@@ -1,0 +1,84 @@
+inputs:
+- data/sim/synth_const_vel_gz
+- data/sim/synth_chirp_gz
+gravity_terms: false
+cutoff_hz: 30.0
+deadband: 0.05
+huber: null
+per_dataset:
+  synth_const_vel_gz:
+    params:
+      J: 0.0066856652145799575
+      b: 0.017725592852648284
+      c: 0.14631848637271183
+      tau0: 0.00142487114947705
+    se:
+      J: 3.43787397186737e-05
+      b: 0.0010433961760735898
+      c: 0.0025793706974292837
+      tau0: 0.0015853104660033827
+    rms_resid_Nm: 0.13373004615900544
+    r2: 0.8696711239570261
+    n: 8000
+  synth_chirp_gz:
+    params:
+      J: 0.006839646983809175
+      b: 0.019277641870991485
+      c: 0.12588561635276674
+      tau0: 0.0011270893208611852
+    se:
+      J: 3.0834106586325764e-06
+      b: 7.078984847116892e-05
+      c: 0.0005027868189773929
+      tau0: 0.00042160716966199735
+    rms_resid_Nm: 0.03925838114586493
+    r2: 0.9983418777543932
+    n: 10001
+joint:
+  params:
+    J: 0.006826442589275832
+    b: 0.01879767648085867
+    c: 0.13551386496137297
+    tau0: 0.002044706808350021
+  se:
+    J: 7.2988857132733755e-06
+    b: 0.0001668120488146303
+    c: 0.0009056048159447506
+    tau0: 0.0007600097226516542
+  rms_resid_Nm: 0.09717100164007625
+  r2: 0.9828581377112228
+  n: 16647
+two_stage:
+  stage1_sets:
+  - synth_const_vel_gz
+  stage2_sets:
+  - synth_chirp_gz
+  params:
+    J: 0.006838495773245484
+    b: 0.01955346727962052
+    c: 0.15052444825813777
+    tau0: 0.00015185416037193309
+  se:
+    J: 3.6867418938920083e-06
+    b: 1.7799627053731107e-05
+    c: 3.784418000735844e-05
+    tau0: 2.2331240242139452e-05
+  stage1_r2: 0.9999112658168794
+  stage1_rms_Nm: 0.0017188081946892101
+  stage1_kept_frac: 0.853125
+  alpha_max: 3.0
+  stage2_rms_Nm: 0.046936028458528456
+isaac_dcmotor_cfg:
+  armature: 0.0030884957732454843
+  link_inertia_used: 0.00375
+  dynamic_friction: 0.15052444825813777
+  friction: 0.15052444825813777
+  viscous_friction: 0.01955346727962052
+truth_from_meta:
+  effort_limit: 50.0
+  velocity_limit: 50.0
+  armature: 0.003
+  friction: 0.15
+  dynamic_friction: 0.15
+  viscous_friction: 0.02
+  saturation_effort: 50.0

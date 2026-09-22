@@ -39,8 +39,8 @@ motor_limits:
   DM8009: {p_max: 12.5, v_max: 45.0, t_max: 54.0}
 
 # 식별 실험용 안전 한계 (URDF 보다 좁음). 값은 매달린(hanging, q≈0) 자세 기준.
-# joint3 / joint7 은 매달린 자세에서 롤 축 = 중력 방향 → 중력 토크 ≈ 0, 마찰·관성 식별에 이상적.
-# joint1 (DM8009) 은 중력 부하가 걸리므로 범위를 좁게 잡고, 피팅 시 중력항을 포함해야 한다.
+# [2026-09-21 실측] joint7 은 중력 정렬 축이 아님 — 그리퍼 무게중심 오프셋으로 m·g·d ≈ 0.72 Nm 의 중력 토크 존재.
+# 따라서 모든 축을 진자로 취급하고 피팅에 중력항(sin/cos)을 항상 포함한다. joint3 도 같은 가정으로 확인 필요.
 safety:
   soft_margin_rad: 0.15       # soft_lower/upper 접근 시 토크 스케일다운 시작 폭
   t_mos_max_C: 70
@@ -57,7 +57,7 @@ safety:
 
 # 식별 대표 축 (WP3). 실제 축은 스모크 테스트 후 확정.
 id_axes:
-  DM4310: {arm: right, joint: joint7}
+  DM4310: {arm: right, joint: joint7, note: "중력 0.72 Nm 있음. const_vel 완료(0.25~3 rad/s), 손목 레벨 상한 3"}
   DM4340: {arm: right, joint: joint3}
   DM8009: {arm: right, joint: joint1, note: "중력 부하 있음. 범위 좁게, 중력항 피팅 필요"}
 

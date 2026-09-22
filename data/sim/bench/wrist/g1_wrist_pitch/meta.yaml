@@ -1,0 +1,45 @@
+source: isaac_bench
+cls: wrist
+preset: g1_wrist_pitch
+hz: 500
+rig:
+  joint: right_joint7
+  inertia: 0.00559
+  mgd: 0.72
+  kp: 10.0
+  kd: 0.5
+  chirp_f1: 20.0
+  mass: 1.2848543725476405
+  length: 0.11424562500000002
+  gravity_axis: false
+  link_inertia_joint: 0.00559
+proto:
+  step:
+    amp: 0.3
+    hold: 2.0
+    reps: 2
+  chirp:
+    amp: 0.1
+    f0: 0.2
+    dur: 30.0
+  multisine:
+    freqs:
+    - 0.3
+    - 0.7
+    - 1.3
+    - 2.9
+    amp: 0.4
+    dur: 14.0
+  free_decay:
+    release_from: 0.8
+    hold_s: 1.5
+    dur: 10.0
+    spin_v0: 2.0
+effort_mode: peak
+actuator_cfg:
+  effort_limit: 5.0
+  velocity_limit: 22.0
+  armature: 0.01
+  friction: 0.1
+  dynamic_friction: 0.1
+  saturation_effort: 5.0
